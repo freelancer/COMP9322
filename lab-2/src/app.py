@@ -57,7 +57,11 @@ def create_post():
     responses:
       400:
         description: "Invalid input"
-    defintions:
+      401:
+        description: "Invalid token or API token not supplied"
+    security:
+      tokenauth: []
+    definitions:
       CreatePostRequest:
         type: "object"
         properties:
@@ -69,13 +73,12 @@ def create_post():
             type: "boolean"
           tags:
             type: "[string]"
+    securityDefinitions:
+      tokenauth:
+        type: apiKey
+        in: header
+        name: TIL-API-TOKEN
     """
-#securityDefinitions:
-#      tokenauth:
-#        type: apiKey
-#        in: header
-#        name: TIL-API-TOKEN
-
 
     post_data = request.json
     post = Post(
@@ -157,6 +160,12 @@ def get_posts():
                 'tags': tags,
             })
     return jsonify(posts_response)
+
+
+@app.errorhandler(401)
+def uanauthorized_request(e):
+    print('401')
+    return jsonify(error=401, text=str(e)), 401
 
 
 @app.errorhandler(404)
