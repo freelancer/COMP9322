@@ -2,10 +2,12 @@ from flask import request, Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from functools import wraps
+from flasgger import Swagger
 
 import flask
-import datetime
 import requests
+
+from models import Post, PostTag, Tag
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/til.db'
@@ -13,27 +15,12 @@ app.config['AUTH_HOST'] = 'http://127.0.0.1:5000/check/'
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-
-
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    subject = db.Column(db.String(80), nullable=False)
-    content = db.Column(db.String(800), nullable=False)
-    author_id = db.Column(db.Integer)
-    public = db.Column(db.Boolean, default=False)
-    post_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-
-
-class Tag(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    tag = db.Column(db.String(10), unique=True)
-    creation_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-
-
-class PostTag(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer, db.ForeignKey(Post.id))
-    tag_id = db.Column(db.Integer, db.ForeignKey(Tag.id))
+app.config['SWAGGER'] = {
+    'title': 'Today I Learned',
+    'Description': 'The API for Today I Learned',
+    'uiversion': 2
+}
+swagger = Swagger(app)
 
 
 def auth_required(f):
@@ -58,6 +45,32 @@ def auth_required(f):
 @app.route('/posts/', methods=['POST'])
 @auth_required
 def create_post():
+    """ Create a new post
+    ---
+    parameters:
+      - in: "body"
+        name: "body"
+        description: "Create a new post"
+        required: true
+        schema:
+          $ref: "#/definitions/CreatePostRequest"
+    responses:
+      400:
+        description: "Invalid input"
+    definitions:
+      CreatePostRequest:
+        type: "object"
+        properties:
+          subject:
+            type: "string"
+          content:
+            type: "string"
+          public:
+            type: "boolean"
+          tags:
+            type: "[string]"
+    """
+
     post_data = request.json
     post = Post(
         subject=post_data.get('subject'),
@@ -87,7 +100,39 @@ def create_post():
 
 @app.route('/posts/', methods=['GET'])
 def get_posts():
-    posts = Post.query.all()
+    """ Get all public posts
+    ---
+    parameters:
+        in: query
+        name: author_id
+        description: "Get posts by an author"
+    responses:
+      200:
+        description: Lists of posts
+        schema:
+          type: array
+          $ref: "#/definitions/PostResponse"
+    definitions:
+      PostResponse:
+        type: "array"
+        items:
+          subject:
+            type: "string"
+          content:
+            type: "string"
+          public:
+            type: "boolean"
+          tags:
+            type: "[string]"
+          author_id:
+            type: "integer"
+          post_date:
+            type: "string"
+    """
+    posts = Post.query
+    author_id = request.query.args.get('author_id')
+    if author_id:
+        posts = posts.filter_by(author_id=author_id).all()
     posts_response = []
     for post in posts:
         if post.public:
@@ -112,4 +157,4 @@ def page_not_found(e):
 
 
 if __name__ == '__main__':
-    app.run(port=6000)
+    app.run(port=5001)

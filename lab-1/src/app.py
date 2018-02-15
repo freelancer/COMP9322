@@ -2,7 +2,7 @@ from flask import request, Flask, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedSerializer
 from flask_migrate import Migrate
-from flasgger import swag_from, Swagger
+from flasgger import Swagger
 
 from db import db
 from models import User
