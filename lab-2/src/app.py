@@ -26,8 +26,8 @@ swagger = Swagger(app)
 def auth_required(f):
     @wraps(f)
     def check_valid_auth_token(*args, **kwargs):
-        if flask.request.headers.get('API-Token'):
-            token = flask.request.headers.get('API-Token')
+        if flask.request.headers.get('TIL-API-TOKEN'):
+            token = flask.request.headers.get('TIL-API-TOKEN')
             check_token_response = requests.post(
                 app.config['AUTH_HOST'],
                 json={'token': token},
@@ -57,7 +57,7 @@ def create_post():
     responses:
       400:
         description: "Invalid input"
-    definitions:
+    defintions:
       CreatePostRequest:
         type: "object"
         properties:
@@ -70,6 +70,12 @@ def create_post():
           tags:
             type: "[string]"
     """
+#securityDefinitions:
+#      tokenauth:
+#        type: apiKey
+#        in: header
+#        name: TIL-API-TOKEN
+
 
     post_data = request.json
     post = Post(
