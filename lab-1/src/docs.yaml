@@ -1,0 +1,145 @@
+swagger: "2.0"
+info:
+  description: "User Management Service. "
+  version: "1.0.0"
+  title: "Auth"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "developer@email.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "127.0.0.1:5000"
+tags:
+- name: "users"
+  description: "User signup, login and others"
+schemes:
+- "http"
+paths:
+  /users/signup/:
+    post:
+      tags:
+      - "users"
+      summary: "New User Signup"
+      description: ""
+      operationId: "userSignup"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Signup a new User"
+        required: true
+        schema:
+          $ref: "#/definitions/UserSignupRequest"
+      responses:
+        400:
+          description: "Invalid input"
+  /users/login/:
+    post:
+      tags:
+      - "users"
+      summary: "Login and get a Auth token"
+      description: ""
+      operationId: "userLogin"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Login to get a auth token"
+        required: true
+        schema:
+          $ref: "#/definitions/UserLoginRequest"
+      responses:
+        401:
+          description: "Invalid Credentials"
+  /users/check/:
+    post:
+      tags:
+      - "users"
+      summary: "Check if an auth token is valid"
+      description: ""
+      operationId: "userTokenCheck"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Check if an auth token is valid"
+        required: true
+        schema:
+          $ref: "#/definitions/UserTokenCheckRequest"
+      responses:
+        401:
+          description: "Invalid Credentials"
+  /users/{user_id}/:
+     get:
+      summary: Gets a user by ID.
+      parameters:
+        - in: path
+          name: user_id
+          type: integer
+          required: true
+          description: Numeric ID of the user to get.
+      tags:
+      - "users"
+      description: ""
+      operationId: "userGet"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: A User object
+          schema:
+            type: object
+            properties:
+              first_name:
+                type: string
+                description: The first name of the user
+              last_name:
+                type: string
+                description: The last name of the user
+              username:
+                type: string
+                description: The user name.
+        401:
+          description: "Invalid Credentials"
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "Auth-Token"
+    in: "header"
+definitions:
+  UserSignupRequest:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+      first_name:
+        type: "string"
+      last_name:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+  UserLoginRequest:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+      password:
+        type: "string"
+  UserTokenCheckRequest:
+    type: "object"
+    properties:
+      token:
+        type: "string"
+    

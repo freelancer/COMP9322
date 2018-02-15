@@ -1,0 +1,17 @@
+[[source]]
+
+verify_ssl = true
+name = "pypi"
+url = "https://pypi.python.org/simple"
+
+
+[packages]
+
+flask = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
+flasgger = "*"
+
+
+[dev-packages]
+
