@@ -102,10 +102,12 @@ def create_post():
 def get_posts():
     """ Get all public posts
     ---
+    tags: posts
     parameters:
+      - name: author_id
         in: query
-        name: author_id
-        description: "Get posts by an author"
+        description: Get posts by an author
+        type: integer
     responses:
       200:
         description: Lists of posts
