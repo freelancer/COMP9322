@@ -76,46 +76,9 @@ $ pipenv run python app.py
 
 **Viewing the API documentation**
 
-Once the application is up and running, go to `http://127.0.0.1:5000/apidocs/` to see the API docs and
+Once the application is up and running, go to `http://127.0.0.1:5001/apidocs/` to see the API docs and
 even make sample requests.
 
 
 **Using the service**
 
-We can make HTTP API requests to the service using a HTTP client like [postman](https://www.getpostman.com/),
-`curl` or a more a friendlier command line client [httpie](https://httpie.org/). The following are examples
-using `httpie`:
-
-Signup a new user:
-
-```
-$ http POST 127.0.0.1:5000/users/signup/ username=user3 email=user@user2.com password=hello first_name=User last_name=Name
-```
-
-Then, we can login using the above username and password:
-
-```
-$ http POST 127.0.0.1:5000/users/login/ username=user3 password=hello
-< token >
-```
-
-The above request will return us a token which we can use to login or perform functionalities as
-a logged in user:
-
-```
-$ http POST 127.0.0.1:5000/users/check/ token='{\"user_id\": 3}.DWKTqw.8GPHaqVKIwexvnWYOmxIu9uyMkw'
-```
-
-Query a user details:
-
-```
-$ http 127.0.0.1:5000/users/3/
-
-
-
-```
-Create a post:
-
-```
-$ http POST 127.0.0.1:6000/posts/ API-Token:"{\"user_id\": 1}.DWRiug.4Z9KsuYFEDRx27ucnFTjIFV0-wM" subject="Hello World" content="Hey hey" public=True tags:='["hello", "world"]'
-```
