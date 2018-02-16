@@ -42,7 +42,7 @@ When a user logs in, they are sent back an `auth token` which should then be pas
 a valid auth token. The token generated is time limited to 10 minutes. You can change it by modifying the code in [models.py](./src/models.py). The server doesn't keep a record of the token which is an example of a stateless auth token. The
 expiration information is completely embedded in the token itself. 
 
-## Running the sample service**
+## Running the sample service
 
 We will need Python 3.5+ and `pip` installed. Install [pipenv](https://docs.pipenv.org):
 
