@@ -67,12 +67,6 @@ $ FLASK_APP=app.py pipenv run flask db migrate
 $ FLASK_APP=app.py pipenv run flask db upgrade
 ```
 
-If we change any model, any changes to model:
-
-```
-$ FLASK_APP=app.py pipenv run flask db migrate
-$ FLASK_APP=app.py pipenv run flask db upgrade
-```
 
 Run application:
 
@@ -122,3 +116,27 @@ $ http 127.0.0.1:5000/users/3/
 
 
 ```
+
+
+## Development
+
+### Change any DB model
+
+If we change any model, any changes to model:
+
+```
+$ FLASK_APP=app.py pipenv run flask db migrate
+$ FLASK_APP=app.py pipenv run flask db upgrade
+```
+
+Add the changes to version control.
+
+### Add new dependency
+
+To add a new dependency:
+
+```
+$ pipenv install <dep name>
+```
+
+Commit the updated files
