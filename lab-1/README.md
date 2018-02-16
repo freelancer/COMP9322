@@ -1,6 +1,6 @@
 # Lab 1 - Implement an Authentication service
 
-**Goal**
+## Goal
 
 Create a HTTP API backend for handling user management (**auth** service)
 
@@ -10,9 +10,12 @@ following functionalities:
 - User signup
 - User login
 - User login check
-- Respond to queries for user details 
+- Respond to queries for user details
 
-**Implementation**
+We will be using this service in [Lab 2](../lab-2) where we implement a web application which requires user signup/login
+functionalities.
+
+## Implementation
 
 We will use Python 3.5+ and the following third party packages:
 
@@ -33,8 +36,13 @@ The database we use is [sqlite](https://docs.python.org/3/library/sqlite3.html) 
 and we don't need to worry about setting up a real SQL server. In addition, all our code will continue
 to work when we switch to a real MySQL server.
 
+### A note on the authentication model
 
-**Running the sample service**
+When a user logs in, they are sent back an `auth token` which should then be passed on to subsequent requests that requires
+a valid auth token. The token generated is time limited to 10 minutes. You can change it by modifying the code in [models.py](./src/models.py). The server doesn't keep a record of the token which is an example of a stateless auth token. The
+expiration information is completely embedded in the token itself. 
+
+## Running the sample service**
 
 We will need Python 3.5+ and `pip` installed. Install [pipenv](https://docs.pipenv.org):
 
@@ -74,13 +82,13 @@ $ cd lab-1/src
 $ pipenv run python app.py
 ```
 
-**Viewing the API documentation**
+## Viewing the API documentation
 
 Once the application is up and running, go to `http://127.0.0.1:5000/apidocs/` to see the API docs and
 even make sample requests.
 
 
-**Using the service**
+## Using the service
 
 We can make HTTP API requests to the service using a HTTP client like [postman](https://www.getpostman.com/),
 `curl` or a more a friendlier command line client [httpie](https://httpie.org/). The following are examples
