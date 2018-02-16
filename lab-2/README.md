@@ -13,6 +13,42 @@ following functionalities:
 To perform the functionality of user management, we will use the user management
 service we implemented in [lab 1](../lab-1).
 
+                                                                                                              
+                                                                                                              
+                                                                                                              
+                                                                                                              
+                                                                                                              
+                                                                                                              
+                                                                                                              
+                                                                                                              
+                                                                                                              
+                                                                                                              
+                         .─────────.                                                      .─────────.         
+                        ╱           ╲                                                    ╱           ╲        
+                       (User Database)                                                  (TIL Database )       
+                        `.         ,'                                                    `.         ,'        
+                          `───────'                                                        `───────'          
+                              ▲                                                                ▲              
+                              │                                                                │              
+                              │                                                                │              
+                              │                                                                ▼              
+                              ▼                                                   ┌──────────────────────────┐
+                  ┌─────────────────────────┐                                     │     Today I Learned      │
+                  │                         │              HTTP                   │                          │
+                  │ User Management Service │    ◀────────────────────────        │         HTTP API         │
+                  │                         │                                     │                          │
+                  │                         │    User supplied a valid token?     │                          │
+                  └─────────────────────────┘                                     └──────────────────────────┘
+                                                                                                              
+                               ▲                                                               ▲              
+                               │                                                               │              
+                               │                                                               │              
+                               │                                                               │              
+                               │                                                               │              
+                     ┌────────────────────┐                                          ┌────────────────────┐   
+                     │  HTTP client/user  │                                          │  HTTP client/user  │   
+                     └────────────────────┘                                          └────────────────────┘   
+
 ## Implementation
 
 We will use Python 3.5+ and the following third party packages:
