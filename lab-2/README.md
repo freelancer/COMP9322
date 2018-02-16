@@ -1,6 +1,6 @@
 # Lab 2 - Today I Learned HTTP service
 
-**Goal**
+## Goal
 
 Create a HTTP API backend for a "Today I learned" application
 
@@ -13,7 +13,7 @@ following functionalities:
 To perform the functionality of user management, we will use the user management
 service we implemented in [lab 1](../lab-1).
 
-**Implementation**
+## Implementation
 
 We will use Python 3.5+ and the following third party packages:
 
@@ -34,7 +34,7 @@ and we don't need to worry about setting up a real SQL server. In addition, all 
 to work when we switch to a real MySQL server.
 
 
-**Running the sample service**
+## Running the sample service
 
 We will need Python 3.5+ and `pip` installed. Install [pipenv](https://docs.pipenv.org):
 
@@ -74,11 +74,11 @@ $ cd lab-2/src
 $ pipenv run python app.py
 ```
 
-**Viewing the API documentation**
+## Viewing the API documentation 
 
 Once the application is up and running, go to `http://127.0.0.1:5001/apidocs/` to see the API docs and
 even make sample requests.
 
 
-**Using the service**
+## Using the service
 
