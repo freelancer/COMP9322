@@ -92,6 +92,7 @@ Signup a new user:
 
 ```
 $ http POST 127.0.0.1:5000/users/signup/ username=user3 email=user@user2.com password=hello first_name=User last_name=Name
+...
 ```
 
 Then, we can login using the above username and password:
@@ -112,8 +113,7 @@ Query a user details:
 
 ```
 $ http 127.0.0.1:5000/users/3/
-
-
+..
 
 ```
 
