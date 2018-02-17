@@ -11,17 +11,9 @@ following functionalities:
 - Retreive posts
 
 To perform the functionality of user management, we will use the user management
-service we implemented in [lab 1](../lab-1).
-
-                                                                                                              
-                                                                                                              
-                                                                                                              
-                                                                                                              
-                                                                                                              
-                                                                                                              
-                                                                                                              
-                                                                                                              
-                                                                                                              
+service we implemented in [lab 1](../lab-1). To interact with the `til` service, 
+a user will need to have an account which they will sign up by interacting with the
+`user management` service.
                                                                                                               
                          .─────────.                                                      .─────────.         
                         ╱           ╲                                                    ╱           ╲        
@@ -48,6 +40,8 @@ service we implemented in [lab 1](../lab-1).
                      ┌────────────────────┐                                          ┌────────────────────┐   
                      │  HTTP client/user  │                                          │  HTTP client/user  │   
                      └────────────────────┘                                          └────────────────────┘   
+
+
 
 ## Implementation
 
@@ -113,6 +107,9 @@ even make sample requests.
 
 
 ## Using the service
+
+The first step to use the service is to have a valid user token which we can obtain as shown in [lab 1](../lab-1)
+and then pass that as a header with requests we make to the service.
 
 ## Development
 
