@@ -23,7 +23,8 @@ app.config['SWAGGER'] = {
 swagger = Swagger(app)
 
 
-def is_token_valid():
+@app.before_request
+def set_user_id():
     if flask.request.headers.get('TIL-API-TOKEN'):
         token = flask.request.headers.get('TIL-API-TOKEN')
         check_token_response = requests.post(
@@ -32,15 +33,16 @@ def is_token_valid():
         )
         if check_token_response.status_code == 200:
             flask.request.user_id = check_token_response.json().get('user_id')
-            return True
-    flask.request.user_id = None
-    return False
+        else:
+            flask.request.user_id = None
+    else:
+        flask.request.user_id = None
 
 
 def auth_required(f):
     @wraps(f)
     def check_valid_auth_token(*args, **kwargs):
-        if is_token_valid():
+        if flask.request.user_id:
             return f(*args, **kwargs)
         else:
             return 'Invalid API token or API token not supplied', 401
@@ -147,13 +149,9 @@ def get_posts():
     """
     posts = Post.query
     author_id = request.args.get('author_id')
-    if is_token_valid():
-        # if a user has supplied a valid token, we return both public
-        # and private posts of the user
-        print(flask.request.user_id)
+    if flask.request.user_id:
         posts = posts.filter_by(author_id=flask.request.user_id)
     else:
-        # Get all public posts or filtered by a particular author
         posts = posts.filter_by(public=True)
     if author_id:
         posts = posts.filter_by(author_id=author_id)
