@@ -132,7 +132,14 @@ Server: Werkzeug/0.14.1 Python/3.5.3
 
 {"user_id": 1}.DWv1wQ.I-6pyv5yFfEnY7MC5bWhUwLygjA
 
- http POST 127.0.0.1:5001/posts/ TIL-API-Token:'{"user_id": 1}.DWv1wQ.I-6pyv5yFfEnY7MC5bWhUwL
+ 
+
+```
+
+**Creating a new post**
+
+```
+http POST 127.0.0.1:5001/posts/ TIL-API-Token:'{"user_id": 1}.DWv1wQ.I-6pyv5yFfEnY7MC5bWhUwL
 ygjA'  subject="Hello World" content="Hello there; this is my first post" tags='["updates", "python"]'
 HTTP/1.0 200 OK
 Content-Length: 19
@@ -143,13 +150,14 @@ Server: Werkzeug/0.14.1 Python/3.5.3
 {
     "post_id": 1
 }
-
-
 ```
 
-**Creating a new post**
-
 **Retrieving posts**
+
+```
+$ http 127.0.0.1:5001/posts/?author_id=3 TIL-API-TOKEN:'{"user_id": 1}.DWv7Ug._tyipTRCoF8JqX25
+KwO8XaYw4DI'
+```
 
 
 ## Development
