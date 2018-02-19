@@ -88,7 +88,10 @@ We can make HTTP API requests to the service using a HTTP client like [postman](
 `curl` or a more a friendlier command line client [httpie](https://httpie.org/). The following are examples
 using `httpie`:
 
-Signup a new user:
+**Signup a new user**
+
+To sign up a new user, we will supply a `username`, `email`, `password`, `first_name` and a `last_name` as a JSON
+body:
 
 ```
 $ http POST 127.0.0.1:5000/users/signup/ username=user3 email=user@user2.com password=hello first_name=User last_name=Name
@@ -102,6 +105,8 @@ $ http POST 127.0.0.1:5000/users/login/ username=user3 password=hello
 < token >
 ```
 
+**Making authenticated requests**
+
 The above request will return us a token which we can use to login or perform functionalities as
 a logged in user:
 
@@ -109,7 +114,7 @@ a logged in user:
 $ http POST 127.0.0.1:5000/users/check/ token='{\"user_id\": 3}.DWKTqw.8GPHaqVKIwexvnWYOmxIu9uyMkw'
 ```
 
-Query a user details:
+**Query a user details**
 
 ```
 $ http 127.0.0.1:5000/users/3/
