@@ -111,6 +111,13 @@ even make sample requests.
 The first step to use the service is to have a valid user token which we can obtain as shown in [lab 1](../lab-1)
 and then pass that as a header with requests we make to the service.
 
+**Sign up and Get a authentication token**
+
+**Creating a new post**
+
+**Retrieving posts**
+
+
 ## Development
 
 ### Change any DB model
