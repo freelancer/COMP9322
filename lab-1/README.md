@@ -58,12 +58,10 @@ $ cd lab-1
 $ pipenv install
 ```
 
-For the first time, we will need to create the DB which is a `sqlite` DB:
+For the first time we run the application, we will need to create the DB which is a `sqlite` DB:
 
 ```
 $ cd src
-$ FLASK_APP=app.py pipenv run flask db init
-$ FLASK_APP=app.py pipenv run flask db migrate
 $ FLASK_APP=app.py pipenv run flask db upgrade
 ```
 
