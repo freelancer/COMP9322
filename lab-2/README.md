@@ -84,13 +84,8 @@ For the first time, we will need to create the DB which is a `sqlite` DB:
 
 ```
 $ cd src
-$ FLASK_APP=app.py pipenv run flask db init
-$ FLASK_APP=app.py pipenv run flask db migrate
 $ FLASK_APP=app.py pipenv run flask db upgrade
 ```
-
-If we change any model, any changes to model:
-
 
 Run application:
 
