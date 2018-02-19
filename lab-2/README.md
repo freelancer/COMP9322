@@ -108,6 +108,45 @@ and then pass that as a header with requests we make to the service.
 
 **Sign up and Get a authentication token**
 
+We will do so by making an API request to the user management service:
+
+```
+asaha@asaha-desktop:~$  http POST 127.0.0.1:5000/users/signup/ username=amitsaha email=asah@freelancer.com password
+=secret first_name=Amit last_name=Saha
+HTTP/1.0 200 OK
+Content-Length: 19
+Content-Type: application/json
+Date: Mon, 19 Feb 2018 05:43:47 GMT
+Server: Werkzeug/0.14.1 Python/3.5.3
+
+{
+    "user_id": 1
+}
+
+asaha@asaha-desktop:~$ http POST 127.0.0.1:5000/users/login/ username=amitsaha password=secret
+HTTP/1.0 200 OK
+Content-Length: 49
+Content-Type: text/html; charset=utf-8
+Date: Mon, 19 Feb 2018 05:44:33 GMT
+Server: Werkzeug/0.14.1 Python/3.5.3
+
+{"user_id": 1}.DWv1wQ.I-6pyv5yFfEnY7MC5bWhUwLygjA
+
+ http POST 127.0.0.1:5001/posts/ TIL-API-Token:'{"user_id": 1}.DWv1wQ.I-6pyv5yFfEnY7MC5bWhUwL
+ygjA'  subject="Hello World" content="Hello there; this is my first post" tags='["updates", "python"]'
+HTTP/1.0 200 OK
+Content-Length: 19
+Content-Type: application/json
+Date: Mon, 19 Feb 2018 05:49:17 GMT
+Server: Werkzeug/0.14.1 Python/3.5.3
+
+{
+    "post_id": 1
+}
+
+
+```
+
 **Creating a new post**
 
 **Retrieving posts**
