@@ -153,8 +153,8 @@ The response is the entire auth token and is valid for 10 minutes.
 Next, we will create a new post supplying the above auth token:
 
 ```
-$ http POST 127.0.0.1:5001/posts/ TIL-API-Token:'{"user_id": 1}.DWv1wQ.I-6pyv5yFfEnY7MC5bWhUwL
-ygjA'  subject="Hello World" content="Hello there; this is my first post" tags='["updates", "python"]'
+$ http POST 127.0.0.1:5001/posts/ TIL-API-Token:'{"user_id": 1}.DWzv3A.RRwp-VfrpnpuXGyRuRYPm7PT4To'  subject="Hello World" content="Hello there; this is my first post" tags:='["ruby", "python"]'
+
 HTTP/1.0 200 OK
 Content-Length: 19
 Content-Type: application/json
