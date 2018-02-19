@@ -11,7 +11,7 @@ from models import Post, PostTag, Tag
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/til.db'
-app.config['AUTH_HOST'] = 'http://127.0.0.1:5000/check/'
+app.config['AUTH_HOST'] = 'http://127.0.0.1:5000/users/check/'
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -23,22 +23,27 @@ app.config['SWAGGER'] = {
 swagger = Swagger(app)
 
 
+def is_token_valid():
+    if flask.request.headers.get('TIL-API-TOKEN'):
+        token = flask.request.headers.get('TIL-API-TOKEN')
+        check_token_response = requests.post(
+            app.config['AUTH_HOST'],
+            json={'token': token},
+        )
+        if check_token_response.status_code == 200:
+            flask.request.user_id = check_token_response.json().get('user_id')
+            return True
+    flask.request.user_id = None
+    return False
+
+
 def auth_required(f):
     @wraps(f)
     def check_valid_auth_token(*args, **kwargs):
-        if flask.request.headers.get('TIL-API-TOKEN'):
-            token = flask.request.headers.get('TIL-API-TOKEN')
-            check_token_response = requests.post(
-                app.config['AUTH_HOST'],
-                json={'token': token},
-            )
-            if check_token_response.status_code == 200:
-                flask.request.user_id = check_token_response.json().get('user_id')
-                return f(*args, **kwargs)
-            else:
-                return 'Invalid API token', 401
+        if is_token_valid():
+            return f(*args, **kwargs)
         else:
-            return 'API token not supplied', 401
+            return 'Invalid API token or API token not supplied', 401
     return check_valid_auth_token
 
 
@@ -141,24 +146,33 @@ def get_posts():
             type: "string"
     """
     posts = Post.query
-    author_id = request.query.args.get('author_id')
+    author_id = request.args.get('author_id')
+    if is_token_valid():
+        # if a user has supplied a valid token, we return both public
+        # and private posts of the user
+        print(flask.request.user_id)
+        posts = posts.filter_by(author_id=flask.request.user_id)
+    else:
+        # Get all public posts or filtered by a particular author
+        posts = posts.filter_by(public=True)
     if author_id:
-        posts = posts.filter_by(author_id=author_id).all()
+        posts = posts.filter_by(author_id=author_id)
+
+    posts = posts.all()
     posts_response = []
     for post in posts:
-        if post.public:
-            post_tags = PostTag.query.filter_by(post_id=post.id).all()
-            tags = []
-            for pt in post_tags:
-                tags.append(Tag.query.filter_by(id=pt.tag_id).one().tag)
-            posts_response.append({
-                'id': post.id,
-                'subject': post.subject,
-                'content': post.content,
-                'author_id': post.author_id,
-                'post_date': post.post_date,
-                'tags': tags,
-            })
+        post_tags = PostTag.query.filter_by(post_id=post.id).all()
+        tags = []
+        for pt in post_tags:
+            tags.append(Tag.query.filter_by(id=pt.tag_id).one().tag)
+        posts_response.append({
+            'id': post.id,
+            'subject': post.subject,
+            'content': post.content,
+            'author_id': post.author_id,
+            'post_date': post.post_date,
+            'tags': tags,
+        })
     return jsonify(posts_response)
 
 
