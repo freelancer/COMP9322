@@ -75,3 +75,7 @@ API. The documentation will be added to the source as comments in the following 
 ```
 
 Using [flasgger](https://github.com/rochacbruno/flasgger) when we run the service, the documentation will automatically become available to us at a desginated URL.
+
+## HTTP Clients
+
+We can make HTTP API requests to the service using a HTTP client like [postman](https://www.getpostman.com/), [curl](https://zaiste.net/introduction_to_curl/) or a more friendlier command line client, [httpie](https://httpie.org/).
