@@ -13,6 +13,7 @@ following functionalities:
 
 - Create new posts
 - Retreive posts
+- Retreive tags
 
 To perform the functionality of user management, we will use the user management
 service we implemented in [lab 1](../lab-1). To interact with the `til` service, 
@@ -171,6 +172,48 @@ Server: Werkzeug/0.14.1 Python/3.5.3
 ```
 $ http 127.0.0.1:5001/posts/?author_id=3 TIL-API-TOKEN:'{"user_id": 1}.DWv7Ug._tyipTRCoF8JqX25
 KwO8XaYw4DI'
+
+ {
+        "author_id": 1,
+        "content": "Hello there; this is my first post",
+        "id": 18,
+        "post_date": "Mon, 19 Feb 2018 23:35:28 GMT",
+        "subject": "Hello World",
+        "tags": [
+            "ruby"
+        ]
+    },
+    {
+        "author_id": 1,
+        "content": "Hello there; this is my first post",
+        "id": 19,
+        "post_date": "Mon, 19 Feb 2018 23:35:46 GMT",
+        "subject": "Hello World",
+        "tags": [
+            "ruby",
+            "python"
+        ]
+    }
+
+```
+
+**Retrieve current tags**
+
+```
+$ http 127.0.0.1:5001/tags/
+HTTP/1.0 200 OK
+Content-Length: 186
+Content-Type: application/json
+Date: Tue, 20 Feb 2018 00:14:38 GMT
+Server: Werkzeug/0.14.1 Python/3.5.3
+
+[
+   "ruby",
+   "python"
+]
+
+
+
 ```
 
 

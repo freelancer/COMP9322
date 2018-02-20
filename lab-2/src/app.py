@@ -173,6 +173,28 @@ def get_posts():
         })
     return jsonify(posts_response)
 
+@app.route('/tags/', methods=['GET'])
+def get_tags():
+    """ Get all tags
+    ---
+    tags: posts
+    responses:
+      200:
+        description: List of tags
+        schema:
+          type: array
+          $ref: "#/definitions/TagsResponse"
+    definitions:
+      TagsResponse:
+        type: "array"
+        items:
+          tag:
+            type: "string"
+    """
+    tags = Tag.query.all()
+    tags_response = [tag.tag for tag in tags]
+    return jsonify(tags_response)
+
 
 @app.errorhandler(401)
 def uanauthorized_request(e):
