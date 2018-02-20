@@ -18,6 +18,6 @@
 
 **Goal:** Implement basic analytics functionality for the __Today I learned__ application
 
-- API endpoint to return top 10 tags
+- API endpoint to return top tags
 
 

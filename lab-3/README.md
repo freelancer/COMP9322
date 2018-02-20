@@ -49,7 +49,7 @@ Setup application environment:
 
 ```
 $ <GIT REPO HOME>
-$ cd lab-2
+$ cd lab-3
 $ pipenv install
 ```
 
@@ -64,7 +64,7 @@ Run application:
 
 ```
 $ <repo root>
-$ cd lab-2/src
+$ cd lab-3/src
 $ pipenv run python app.py
 ```
 
