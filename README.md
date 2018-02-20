@@ -30,3 +30,48 @@ with these services will be via HTTP clients.
 - API endpoint to return top tags
 
 
+## General notes
+
+## Programming language
+
+The programming language used for the exercises is *Python 3* and we will be using [pipenv](https://github.com/pypa/pipenv)
+for using and managing third party packages.
+
+### API Documentation
+
+We will be using [Open API specification](https://swagger.io/docs/specification/about/) file for documenting our HTTP
+API. The documentation will be added to the source as comments in the following form:
+
+```python
+""" New User Signup
+    ---
+    parameters:
+      - in: "body"
+        name: "body"
+        description: "Signup a new User"
+        required: true
+        schema:
+          $ref: "#/definitions/UserSignupRequest"
+    responses:
+      400:
+        description: "Invalid input"
+    definitions:
+      UserSignupRequest:
+        type: "object"
+        properties:
+          username:
+            type: "string"
+          first_name:
+            type: "string"
+          last_name:
+            type: "string"
+          email:
+            type: "string"
+          password:
+            type: "string"
+    """
+    ...
+
+```
+
+Using [flasgger](https://github.com/rochacbruno/flasgger) when we run the service, the documentation will automatically become available to us at a desginated URL.
