@@ -14,9 +14,10 @@
 - Create new posts
 - View posts
 
-## Lab 3
+## [Lab 3](./lab-3)
 
-**Goal:** Create an HTTP API backed analytics service for the __Today I learned__ application
+**Goal:** Implement basic analytics functionality for the __Today I learned__ application
 
-TODO
+- API endpoint to return top 10 tags
+
 
