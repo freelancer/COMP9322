@@ -1,55 +1,14 @@
-# Lab 2 - Today I Learned HTTP service
+# Lab 3 - Simple analytics for Today I Learned HTTP service
 
 ## Goal
 
-Create a HTTP API backend for a "Today I learned" application. The application is meant to provide
-a platform for users to create short posts (upto 800 characters) on what they learn everyday.
-Each post has a subject, body and one or more tags associated with them. In addition, each post can either
-be marked private (default) or be public. Private posts are only visible to their creators. Users need to have
-a valid account to be able to create posts.
-
-The goal of this lab is to implement a HTTP API to perform the 
-following functionalities:
-
-- Create new posts
-- Retreive posts
-- Retreive tags
-
-To perform the functionality of user management, we will use the user management
-service we implemented in [lab 1](../lab-1). To interact with the `til` service, 
-a user will need to have an account which they will sign up by interacting with the
-`user management` service. For functionalities which require the user to have a valid
-auth token, they will supply the token via the `TIL-API-TOKEN` HTTP header.
-
-The interaction between the TIL HTTP API backend and the user management service can roughly
-be represented as follows:
-                                                                                                              
-                         .─────────.                                                      .─────────.         
-                        ╱           ╲                                                    ╱           ╲        
-                       (User Database)                                                  (TIL Database )       
-                        `.         ,'                                                    `.         ,'        
-                          `───────'                                                        `───────'          
-                              ▲                                                                ▲              
-                              │                                                                │              
-                              │                                                                │              
-                              │                                                                ▼              
-                              ▼                                                   ┌──────────────────────────┐
-                  ┌─────────────────────────┐                                     │     Today I Learned      │
-                  │                         │              HTTP                   │                          │
-                  │ User Management Service │    ◀────────────────────────        │         HTTP API         │
-                  │                         │                                     │                          │
-                  │                         │    User supplied a valid token?     │                          │
-                  └─────────────────────────┘                                     └──────────────────────────┘
-                                                                                                              
-                               ▲                                                               ▲              
-                               │                                                               │              
-                               │                                                               │              
-                               │                                                               │              
-                               │                                                               │              
-                     ┌────────────────────┐                                          ┌────────────────────┐   
-                     │  HTTP client/user  │                                          │  HTTP client/user  │   
-                     └────────────────────┘                                          └────────────────────┘   
-
+In this lab, we expand [Lab -2](../lab-2) to implement basic analytics service. In Lab 2, we implemented 
+support for retrieving all the current tags. However, let's say we want to be able to see the tags that 
+are most used. Although we could do SQL queries to the database to fetch this information, we will unncessarily
+burden the database for such requests. In addition, imagine thousands and millions of user creating posts
+with tags and you always want to know what are the top N tags in your application. To implement this feature,
+we will use a popular datastore, [redis](https://redis.io/). More specifically, we will use a redis feature
+called [sorted sets](http://echorand.me/sorted-sets-in-redis-from-cli-python-and-golang.html).
 
 
 ## Implementation
@@ -62,6 +21,7 @@ We will use Python 3.5+ and the following third party packages:
 - [werkzeug](http://werkzeug.pocoo.org/)
 - [flasgger](https://github.com/rochacbruno/flasgger)
 - [requests](http://docs.python-requests.org/en/master/)
+- [redis](https://pypi.python.org/pypi/redis)
 
 The `src/` directory has the source for the entire application. The key files are:
 
@@ -72,6 +32,10 @@ The database we use is [sqlite](https://docs.python.org/3/library/sqlite3.html) 
 and we don't need to worry about setting up a real SQL server. In addition, all our code will continue
 to work when we switch to a real MySQL server.
 
+The source is a copy of our code in lab 2 with the following additions to `app.py`:
+
+- Add a new endpoint: `/tags/top/`
+- After each new post, the tag counter is updated by calling `redis`.
 
 ## Running the sample service
 
@@ -103,6 +67,9 @@ $ <repo root>
 $ cd lab-2/src
 $ pipenv run python app.py
 ```
+
+We also need to have a local `redis` server running. Please see the [documentation](https://redis.io/download)
+on how you can download redis and run it.
 
 ## Viewing the API documentation 
 
@@ -167,54 +134,7 @@ Server: Werkzeug/0.14.1 Python/3.5.3
 }
 ```
 
-**Retrieving posts**
-
-```
-$ http 127.0.0.1:5001/posts/?author_id=3 TIL-API-TOKEN:'{"user_id": 1}.DWv7Ug._tyipTRCoF8JqX25
-KwO8XaYw4DI'
-
- {
-        "author_id": 1,
-        "content": "Hello there; this is my first post",
-        "id": 18,
-        "post_date": "Mon, 19 Feb 2018 23:35:28 GMT",
-        "subject": "Hello World",
-        "tags": [
-            "ruby"
-        ]
-    },
-    {
-        "author_id": 1,
-        "content": "Hello there; this is my first post",
-        "id": 19,
-        "post_date": "Mon, 19 Feb 2018 23:35:46 GMT",
-        "subject": "Hello World",
-        "tags": [
-            "ruby",
-            "python"
-        ]
-    }
-
-```
-
-**Retrieve current tags**
-
-```
-$ http 127.0.0.1:5001/tags/
-HTTP/1.0 200 OK
-Content-Length: 186
-Content-Type: application/json
-Date: Tue, 20 Feb 2018 00:14:38 GMT
-Server: Werkzeug/0.14.1 Python/3.5.3
-
-[
-   "ruby",
-   "python"
-]
-
-
-
-```
+Create a few more posts with different tags.
 
 **Get top 5 tags**
 
