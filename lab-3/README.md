@@ -10,7 +10,36 @@ with tags and you always want to know what are the top N tags in your applicatio
 we will use a popular datastore, [redis](https://redis.io/). More specifically, we will use a redis feature
 called [sorted sets](http://echorand.me/sorted-sets-in-redis-from-cli-python-and-golang.html).
 
+The overall architecture now looks like this:
 
+
+```
+       .─────────.                                                      .─────────.
+      ╱           ╲                                                    ╱           ╲
+     (User Database)                                                  (TIL Database )
+      `.         ,'                                                    `.         ,'
+        `───────'                                                        `───────'
+            ▲                                                                ▲
+            │                                                                │
+            │                                                                │
+            │                                                                ▼
+            ▼                                                   ┌──────────────────────────┐
+┌─────────────────────────┐                                     │     Today I Learned      │
+│                         │              HTTP                   │                          │       .───────────.
+│ User Management Service │    ◀────────────────────────        │         HTTP API         │ ───▶ (    Redis    )
+│                         │                                     │                          │       `───────────'
+│                         │    User supplied a valid token?     │                          │
+└─────────────────────────┘                                     └──────────────────────────┘
+
+             ▲                                                               ▲
+             │                                                               │
+             │                                                               │
+             │                                                               │
+             │                                                               │
+   ┌────────────────────┐                                          ┌────────────────────┐
+   │  HTTP client/user  │                                          │  HTTP client/user  │
+   └────────────────────┘                                          └────────────────────┘
+   ```
 ## Implementation
 
 We will use Python 3.5+ and the following third party packages:
