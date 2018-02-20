@@ -238,7 +238,7 @@ def get_top_tags():
             tag:
               type: "string"
     """
-    k = request.args.get('k', 5)
+    k = int(request.args.get('k', 5))
     tags = get_redis().zrevrange('tags', 0, k-1)
     return jsonify([t.decode('utf-8') for t in tags])
 
