@@ -23,6 +23,7 @@ We will use Python 3.5+ and the following third party packages:
 - [flask-sqlalchemy](https://flask-sqlalchemy.pocoo.org)
 - [flask-migrate](https://flask-migrate.readthedocs.io/en/latest/)
 - [werkzeug](http://werkzeug.pocoo.org/)
+- [itsdangerous](http://pythonhosted.org/itsdangerous/)
 - [flasgger](https://github.com/rochacbruno/flasgger)
 
 The `src/` directory has the source for the entire application. The key files are:
